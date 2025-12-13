@@ -17,7 +17,7 @@ export default function Home() {
     localStorage.removeItem("token");
     localStorage.removeItem("userEmail");
     alert("logout Successfull");
-    navigate("/login");
+    navigate("/")
   };
 
   return (
