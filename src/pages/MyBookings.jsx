@@ -35,7 +35,7 @@ export default function MyBookings() {
 
     // Re-fetch bookings
     const res = await axios.get(
-      `http://localhost:5000/api/bookings/my/${userEmail}`
+      `${import.meta.env.VITE_API_URL}/api/bookings/my/${userEmail}`
     );
 
     if (res.data.length === 0) {
