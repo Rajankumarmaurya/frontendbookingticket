@@ -20,6 +20,7 @@ export default function Login() {
 
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("userEmail", email);
+      alert("login successfull");
       navigate("/");
     } catch (err) {
       setError(err.response?.data?.message || "Login failed");
