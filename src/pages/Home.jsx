@@ -6,7 +6,7 @@ import "./Home.css";
 
 export default function Home() {
   const [movies, setMovies] = useState([]);
-  const [loading, setLoading] = useState(true); // 🔥 loader only here
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
 
@@ -15,16 +15,15 @@ export default function Home() {
       .get(`${import.meta.env.VITE_API_URL}/api/movies`)
       .then(res => {
         setMovies(res.data);
-        setLoading(false); // 🔥 stop loader
+        setLoading(false);
       })
       .catch(() => setLoading(false));
   }, []);
 
-  // 🔥 ONLY HOME PAGE LOADER
-  if (loading) return <Loader />;
-
   return (
     <div className="container">
+
+      
       <div className="home-header">
         <h1>Movies</h1>
 
@@ -36,11 +35,15 @@ export default function Home() {
             </>
           ) : (
             <>
-              <Link to="/my-bookings"><button className="outline">My Bookings</button></Link>
-              <button onClick={() => {
-                localStorage.clear();
-                navigate("/login");
-              }}>
+              <Link to="/my-bookings">
+                <button className="outline">My Bookings</button>
+              </Link>
+              <button
+                onClick={() => {
+                  localStorage.clear();
+                  navigate("/login");
+                }}
+              >
                 Logout
               </button>
             </>
@@ -48,17 +51,23 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="movie-grid">
-        {movies.map(movie => (
-          <div className="movie-card" key={movie._id}>
-            <img src={movie.poster} alt={movie.title} />
-            <h3>{movie.title}</h3>
-            <Link to={`/movie/${movie._id}`}>
-              <button>View</button>
-            </Link>
-          </div>
-        ))}
-      </div>
+      {/* 🔥 ONLY MOVIE SECTION LOADING */}
+      {loading ? (
+        <Loader />
+      ) : (
+        <div className="movie-grid">
+          {movies.map(movie => (
+            <div className="movie-card" key={movie._id}>
+              <img src={movie.poster} alt={movie.title} />
+              <h3>{movie.title}</h3>
+              <Link to={`/movie/${movie._id}`}>
+                <button>View</button>
+              </Link>
+            </div>
+          ))}
+        </div>
+      )}
+
     </div>
   );
 }
